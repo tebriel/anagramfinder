@@ -3,17 +3,11 @@
 import re
 import itertools
 import sys
-
-#Unique the set
-def unique_set(words):
-    seen = set()
-    seen_add = seen.add
-    return [ x for x in words if x not in seen and not seen_add(x)]
+import time
 
 def build_word_list(text):
     word_reg = re.compile('[a-zA-Z]{4,}')
-    all_words = [x.lower() for x in re.findall(word_reg, text)]
-    return unique_set(all_words)
+    return set([x.lower() for x in re.findall(word_reg, text)])
 
 def find_anagram(word_list):
     combined_words = itertools.combinations(word_list, 2)
@@ -32,5 +26,7 @@ def find_anagram(word_list):
             unique_sets[joined] = tuple([word[0], word[1]])
 
 if __name__ == '__main__':
+    start_time = time.time()
     word_list = build_word_list(sys.stdin.read())
     find_anagram(word_list)
+    print(time.time() - start_time, "seconds")

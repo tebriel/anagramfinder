@@ -4,6 +4,7 @@ import re
 import itertools
 import sys
 import time
+import collections
 
 class UniqueThing(object):
     __slots__ = ['item_hash', 'item_tuples']
@@ -12,8 +13,9 @@ class UniqueThing(object):
         self.item_tuples = []
     def add_tuple(self, word_one, word_two):
         if not word_one in self.item_hash and not word_two in self.item_hash:
-            self.item_hash.extend([word_one, word_two])
-            self.item_tuples.append([word_one, word_two])
+            both = [word_one, word_two]
+            self.item_hash.extend(both)
+            self.item_tuples.append(both)
 
 def build_word_list(text):
     return set(re.findall('[a-z]{4,}', text.lower()))
@@ -26,15 +28,12 @@ def print_groups(groups):
 def find_anagram(word_list):
     combined_words = itertools.combinations(word_list, 2)
 
-    unique_groups = {}
+    unique_groups = collections.defaultdict(UniqueThing)
 
     for word_one, word_two in combined_words:
         joined = ''.join(sorted("%s%s" % (word_one, word_two)))
-        unique = unique_groups.get(joined)
-        if not unique:
-            unique = UniqueThing()
-            unique_groups[joined] = unique
-        unique.add_tuple(word_one, word_two)
+        unique_groups[joined].add_tuple(word_one, word_two)
+
     return unique_groups
 
 if __name__ == '__main__':

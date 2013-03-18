@@ -4,7 +4,7 @@ import sys
 import gc
 
 def filter_groups(groups):
-    for key, group in groups.iteritems():
+    for group in groups.itervalues():
         if len(group) < 20: continue
         newGroup = []
         for idx in range(0, len(group), 2):

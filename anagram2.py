@@ -1,9 +1,6 @@
-#!/usr/local/bin/python3
-
 import re
 import itertools
 import sys
-import time
 import collections
 
 class UniqueThing(object):
@@ -26,11 +23,9 @@ def print_groups(groups):
             print(', '.join(["%s %s" % (tuple(tup)) for tup in group.item_tuples]))
 
 def find_anagram(word_list):
-    combined_words = itertools.combinations(word_list, 2)
-
     unique_groups = collections.defaultdict(UniqueThing)
 
-    for word_one, word_two in combined_words:
+    for word_one, word_two in itertools.combinations(word_list, 2):
         joined = ''.join(sorted("%s%s" % (word_one, word_two)))
         unique_groups[joined].add_tuple(word_one, word_two)
 
@@ -38,10 +33,12 @@ def find_anagram(word_list):
 
 if __name__ == '__main__':
     text = sys.stdin.read()
-    start_time = time.time()
     word_list = build_word_list(text)
-    print(time.time() - start_time, "seconds")
+    with open("output.txt", 'w') as output:
+        output.write('", "'.join(word_list))
+    print len(word_list)
+
+
+
     groups = find_anagram(word_list)
-    print(time.time() - start_time, "seconds")
     print_groups(groups)
-    print(time.time() - start_time, "seconds")

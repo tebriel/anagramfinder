@@ -34,11 +34,5 @@ def find_anagram(word_list):
 if __name__ == '__main__':
     text = sys.stdin.read()
     word_list = build_word_list(text)
-    with open("output.txt", 'w') as output:
-        output.write('", "'.join(word_list))
-    print len(word_list)
-
-
-
     groups = find_anagram(word_list)
     print_groups(groups)

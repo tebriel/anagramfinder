@@ -21,7 +21,7 @@ def find_anagram(word_list):
 
     for word_one, word_two in itertools.combinations(word_list, 2):
         joined = ''.join(sorted("%s%s" % (word_one, word_two)))
-        unique = unique_groups.setdefault(joined, list())
+        unique = unique_groups.setdefault(joined, [])
         unique.extend([word_one, word_two])
 
     return unique_groups
